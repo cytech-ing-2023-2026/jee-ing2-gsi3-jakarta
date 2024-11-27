@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_1.xsd"
+             version="3.1">
+
+    <persistence-unit name="default" transaction-type="RESOURCE_LOCAL">
+        <description>Persistence Unit</description>
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <class>fr.cyu.jee.model.Admin</class>
+        <class>fr.cyu.jee.model.Course</class>
+        <class>fr.cyu.jee.model.Grade</class>
+        <class>fr.cyu.jee.model.Student</class>
+        <class>fr.cyu.jee.model.Subject</class>
+        <class>fr.cyu.jee.model.Teacher</class>
+        <class>fr.cyu.jee.model.User</class>
+        <class>fr.cyu.jee.model.UserType</class>
+
+        <properties>
+            <property
+                    name="jakarta.persistence.schema-generation.database.action"
+                    value="drop-and-create" />
+            <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql:jee"/>
+            <property name="jakarta.persistence.jdbc.user" value="postgres"/>
+            <property name="jakarta.persistence.jdbc.password" value="postgres"/>
+            <property name="eclipselink.logging.level.sql" value="FINE" />
+            <property name="eclipselink.logging.parameters" value="true" />
+            <property name="hibernate.show_sql" value="true" />
+        </properties>
+    </persistence-unit>
+</persistence>
