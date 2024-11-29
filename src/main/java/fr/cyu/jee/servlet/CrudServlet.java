@@ -2,6 +2,7 @@ package fr.cyu.jee.servlet;
 
 import fr.cyu.jee.dto.DTOResult;
 import fr.cyu.jee.dto.DTOUtil;
+import fr.cyu.jee.middleware.Middleware;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,9 +11,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.ConstraintViolation;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiFunction;
 
 public class CrudServlet<PostDTO, GetDTO, PutDTO, DeleteDTO> extends HttpServlet {
@@ -21,12 +20,18 @@ public class CrudServlet<PostDTO, GetDTO, PutDTO, DeleteDTO> extends HttpServlet
     private Class<GetDTO> getDTOClass;
     private Class<PutDTO> putDTOClass;
     private Class<DeleteDTO> deleteDTOClass;
+    private Map<String, List<Middleware>> middlewares;
 
-    public CrudServlet(Class<PostDTO> postDTOClass, Class<GetDTO> getDTOClass, Class<PutDTO> putDTOClass, Class<DeleteDTO> deleteDTOClass) {
+    public CrudServlet(Class<PostDTO> postDTOClass, Class<GetDTO> getDTOClass, Class<PutDTO> putDTOClass, Class<DeleteDTO> deleteDTOClass, Map<String, List<Middleware>> middlewares) {
         this.postDTOClass = postDTOClass;
         this.getDTOClass = getDTOClass;
         this.putDTOClass = putDTOClass;
         this.deleteDTOClass = deleteDTOClass;
+        this.middlewares = middlewares;
+    }
+
+    public CrudServlet(Class<PostDTO> postDTOClass, Class<GetDTO> getDTOClass, Class<PutDTO> putDTOClass, Class<DeleteDTO> deleteDTOClass) {
+        this(postDTOClass, getDTOClass, putDTOClass, deleteDTOClass, Map.of());
     }
 
     public CrudResponse onPost(PostDTO dto, HttpSession session) {
@@ -47,11 +52,12 @@ public class CrudServlet<PostDTO, GetDTO, PutDTO, DeleteDTO> extends HttpServlet
 
     private <T> void processRequest(HttpServletRequest req, HttpServletResponse resp, Class<T> clazz, BiFunction<T, HttpSession, CrudResponse> logic) throws ServletException, IOException {
         Map<String, Object> redirectAttributes = (Map<String, Object>) req.getSession().getAttribute("redirect_attributes");
+
         if(redirectAttributes != null) {
             for(Map.Entry<String, Object> attribute : redirectAttributes.entrySet())
                 req.setAttribute(attribute.getKey(), attribute.getValue());
 
-            req.removeAttribute("redirect_attributes");
+            req.getSession().removeAttribute("redirect_attributes");
         }
 
         req.getParameterNames().asIterator().forEachRemaining(p -> req.setAttribute(p, req.getParameter(p)));
@@ -59,7 +65,14 @@ public class CrudServlet<PostDTO, GetDTO, PutDTO, DeleteDTO> extends HttpServlet
         Map<String, Object> map = new HashMap<>();
         req.getAttributeNames().asIterator().forEachRemaining(name -> map.put(name, req.getAttribute(name)));
 
-        CrudResponse response = switch (DTOUtil.decodeValid(map, clazz)) {
+        Optional<CrudResponse> middlewareResponse = Optional.empty();
+
+        for(Middleware middleware : middlewares.getOrDefault(req.getMethod().toLowerCase(), List.of())) {
+            middlewareResponse = middleware.handle(req, resp);
+            if(middlewareResponse.isPresent()) break;
+        }
+
+        CrudResponse response = middlewareResponse.orElseGet(() -> switch (DTOUtil.decodeValid(map, clazz)) {
              case DTOResult.Success(T dto) -> logic.apply(dto, req.getSession());
              case DTOResult.DecodingFailure() -> CrudResponse.BAD_REQUEST_DECODING_FAILURE;
              case DTOResult.ValidationFailure(Set<ConstraintViolation<T>> violations) -> {
@@ -70,7 +83,7 @@ public class CrudServlet<PostDTO, GetDTO, PutDTO, DeleteDTO> extends HttpServlet
 
                  yield new ModelAndView(new View.Redirect(req.getHeader("referer")), Map.of("error", errMsg));
              }
-         };
+         });
 
          switch (response) {
              case ModelAndView(View view, Map<String, Object> attributes) -> {

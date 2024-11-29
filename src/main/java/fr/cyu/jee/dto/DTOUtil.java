@@ -96,10 +96,4 @@ public class DTOUtil {
             return violations.isEmpty() ? new DTOResult.Success<>(decoded.get()) : new DTOResult.ValidationFailure<>(violations);
         }
     }
-
-    public static <T> DTOResult<T> decodeValid(HttpServletRequest request, Class<T> clazz) {
-        Map<String, Object> map = new HashMap<>();
-        request.getAttributeNames().asIterator().forEachRemaining(name -> map.put(name, request.getAttribute(name)));
-        return decodeValid(map, clazz);
-    }
 }

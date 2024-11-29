@@ -1,6 +1,7 @@
 package fr.cyu.jee.servlet;
 
 import fr.cyu.jee.dto.*;
+import fr.cyu.jee.middleware.Middleware;
 import fr.cyu.jee.model.*;
 import fr.cyu.jee.service.*;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,7 +15,12 @@ import java.util.stream.Collectors;
 public class CoursesServlet extends CrudServlet<AddCourseDTO, GetCourseDTO, UpdateCourseDTO, DeleteCourseDTO> {
 
     public CoursesServlet() {
-        super(AddCourseDTO.class, GetCourseDTO.class, UpdateCourseDTO.class, DeleteCourseDTO.class);
+        super(AddCourseDTO.class, GetCourseDTO.class, UpdateCourseDTO.class, DeleteCourseDTO.class, Map.ofEntries(
+                Map.entry("get", List.of(Middleware.LOGIN)),
+                Map.entry("post", List.of(Middleware.ADMIN)),
+                Map.entry("put", List.of(Middleware.ADMIN)),
+                Map.entry("delete", List.of(Middleware.ADMIN))
+        ));
     }
 
     private CourseRepository courseRepository = ServiceManager.getInstance().getService(ServiceKey.COURSE_REPOSITORY);
