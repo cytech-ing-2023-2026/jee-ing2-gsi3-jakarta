@@ -14,12 +14,12 @@ import java.util.Map;
 import java.util.Optional;
 
 @WebServlet("/login")
-public class AuthServlet extends CrudServlet<LoginDTO, EmptyDTO> {
+public class AuthServlet extends CrudServlet<LoginDTO, EmptyDTO, EmptyDTO, EmptyDTO> {
 
     private AuthService authService = ServiceManager.getInstance().getService(ServiceKey.AUTH_SERVICE);
 
     public AuthServlet() {
-        super(LoginDTO.class, EmptyDTO.class);
+        super(LoginDTO.class, EmptyDTO.class, EmptyDTO.class, EmptyDTO.class);
     }
 
     @Override
