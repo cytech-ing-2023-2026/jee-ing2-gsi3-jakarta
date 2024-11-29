@@ -47,13 +47,17 @@ public class UpdateCourseDTO {
         this.beginDate = beginDate;
     }
 
-    public Optional<Duration> getDuration() {
+    public Optional<Duration> getDurationOptional() {
         try {
             String[] hoursAndMinutes = duration.trim().split(":");
             return Optional.of(Duration.ofHours(Integer.parseInt(hoursAndMinutes[0])).plusMinutes(Integer.parseInt(hoursAndMinutes[1])));
         } catch (NumberFormatException e) {
             return Optional.empty();
         }
+    }
+
+    public String getDuration() {
+        return duration;
     }
 
     public void setDuration(@NotNull String duration) {

@@ -23,7 +23,7 @@ public class AuthService {
         if(userRepository.findByEmail(registerDTO.getEmail()).isPresent()) return Optional.empty();
         else {
             UserType userType = registerDTO.getUserType();
-            return Optional.of(userRepository.save(userType.createUser(registerDTO.getEmail(), registerDTO.getPassword(), registerDTO.getFirstName(), registerDTO.getLastName(), registerDTO.getDob(), registerDTO.getSubject().orElse(null))));
+            return Optional.of(userRepository.save(userType.createUser(registerDTO.getEmail(), registerDTO.getPassword(), registerDTO.getFirstName(), registerDTO.getLastName(), registerDTO.getDob(), registerDTO.getSubject())));
         }
     }
 }
