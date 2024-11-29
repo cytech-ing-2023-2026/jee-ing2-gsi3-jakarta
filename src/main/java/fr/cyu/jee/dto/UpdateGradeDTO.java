@@ -18,16 +18,16 @@ public class UpdateGradeDTO {
 
     private Subject subject;
 
-    public Grade getGrade() {
-        return grade;
+    public Optional<Grade> getGrade() {
+        return Optional.ofNullable(grade);
     }
 
     public void setGrade(Grade grade) {
         this.grade = grade;
     }
 
-    public double getValue() {
-        return value;
+    public Optional<Double> getValue() {
+        return Optional.of(value);
     }
 
     public void setValue(double value) {
