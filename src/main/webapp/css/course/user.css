@@ -1,0 +1,78 @@
+.week-header {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.timetable {
+    display: grid; /* Structure en grille */
+    grid-template-columns: 100px repeat(7, 1fr); /* Colonne pour les horaires et 7 colonnes pour les jours */
+    grid-template-rows: 50px repeat(48, 1fr); /* Ligne pour les jours de la semaine et 48 lignes pour les créneaux de 15 minutes */
+    /*gap: 1px; /* Espace de 1px entre chaque cellule */
+    border: 1px solid #333; /* Bordure autour de la grille */
+    min-height: 150vh;
+}
+
+.day-header {
+    background-color: #2f4f6f; /* Fond bleu foncé */
+    color: white; /* Texte blanc */
+    font-weight: bold; /* Texte en gras */
+    display: flex; /* Centre le texte dans la cellule */
+    align-items: center; /* Centre verticalement le contenu */
+    justify-content: center; /* Centre horizontalement le contenu */
+    border: 1px solid #ccc; /* Bordure grise autour des en-têtes */
+    border-bottom: 1px solid black;
+}
+
+.time-slot {
+    background-color: #e0e0e0; /* Fond gris clair */
+    color: black; /* Texte noir */
+    font-weight: normal; /* Texte non gras */
+    display: flex; /* Centre le texte dans la cellule */
+    align-items: center; /* Centre verticalement le contenu */
+    justify-content: center; /* Centre horizontalement le contenu */
+    border: 1px solid black; /* Bordure grise autour des créneaux horaires */
+    grid-column: 1; /* Fixe la colonne pour les heures à la première colonne */
+}
+
+.empty-cell {
+    border: 1px solid #ccc; /* Bordure grise autour des cellules vides */
+}
+
+.course {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 0;
+    flex-shrink: 0;
+    background-color: #b0c4de; /* Fond bleu clair pour les cours */
+    border: 1px solid #333; /* Bordure noire autour des cours */
+    padding: 5px; /* Espace intérieur autour du texte */
+    overflow-x: auto;
+    gap: 5px;
+    justify-content: space-evenly;
+}
+
+.course > label.subject {
+    min-width: 100%;
+    text-align: center;
+    font-weight: bold;
+}
+
+.course > label.hour {
+    min-width: 100%;
+    text-align: center;
+}
+
+.course > label.teacher {
+    text-align: left;
+}
+
+.quarter-1 {
+    border-bottom: 1px solid black;
+}
+
+.quarter-3 {
+    border-bottom: 1px solid black;
+}

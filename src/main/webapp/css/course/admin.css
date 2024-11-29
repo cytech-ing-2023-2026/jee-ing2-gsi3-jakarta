@@ -1,0 +1,27 @@
+/* Alignement des champs du formulaire */
+.form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.form-group label {
+    flex: 0 0 150px; /* Largeur fixe pour aligner les étiquettes 0 0 150 est le juste milieu ! */
+    text-align: right;
+    margin-right: 10px;
+}
+.form-group input {
+    flex: 1;
+}
+.courses-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+.courses-table th, .courses-table td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+}
+.courses-table th {
+    background-color: #f2f2f2;
+}
