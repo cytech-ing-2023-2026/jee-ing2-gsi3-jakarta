@@ -8,6 +8,8 @@ import jakarta.persistence.FlushModeType;
 import jakarta.persistence.Persistence;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
+import fr.cyu.jee.service.GradeRepository;
+
 
 import java.time.LocalDate;
 
@@ -36,6 +38,10 @@ public class ContextListener implements ServletContextListener {
         sce.getServletContext().log("Populating database...");
 
         //TODO Add objects to DB
+
+        serviceManager.registerService(ServiceKey.GRADE_REPOSITORY, new GradeRepository(entityManager));
+        UserRepository repository2 = serviceManager.registerService(ServiceKey.USER_REPOSITORY, new UserRepository(em));
+
 
         repository.save(new Admin("notch@minecraft.net", "markus", "Markus", "Persson", LocalDate.of(1979, 6, 1)));
 
