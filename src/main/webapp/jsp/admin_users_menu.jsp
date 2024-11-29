@@ -11,14 +11,11 @@
 <%@ include file="banner.jsp" %>
 <div class="centerdiv">
     <div class="buttonDivContainer">
-        <div class="buttonDiv" id="addUser" onclick="window.location.href='${pageContext.request.contextPath}/admin/add_users'">
+        <div class="buttonDiv" id="addUser" onclick="window.location.href='${pageContext.request.contextPath}/admin/users?selectedMenu=ADD_MENU'">
             <p>Add a user</p>
         </div>
-        <div class="buttonDiv" id="displayUser" onclick="window.location.href='${pageContext.request.contextPath}/admin/display'">
-            <p>Modify or delete a user</p>
-        </div>
-        <div class="buttonDiv" id="searchUser" onclick="window.location.href='${pageContext.request.contextPath}/'">
-            <p>Search for a user</p>
+        <div class="buttonDiv" id="displayUser" onclick="window.location.href='${pageContext.request.contextPath}/admin/users?selectedMenu=DISPLAY_MENU'">
+            <p>List of users</p>
         </div>
 
     </div>

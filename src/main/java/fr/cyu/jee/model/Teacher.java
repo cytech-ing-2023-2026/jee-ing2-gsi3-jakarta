@@ -9,7 +9,7 @@ import java.util.Set;
 @Entity
 public class Teacher extends User {
 
-    @ManyToOne(optional = true)
+    @ManyToOne()
     private Subject subject;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "teacher", cascade = CascadeType.REMOVE)
@@ -30,6 +30,10 @@ public class Teacher extends User {
 
     public Subject getSubject() {
         return subject;
+    }
+
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 
     public String getFirstName() {
