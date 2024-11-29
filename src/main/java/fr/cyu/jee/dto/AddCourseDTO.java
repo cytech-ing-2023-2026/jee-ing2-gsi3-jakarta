@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +18,7 @@ public class AddCourseDTO {
     private LocalDateTime beginDate;
 
     @NotNull
-    private String duration;
+    private Duration duration;
 
     @NotNull
     private Subject subject;
@@ -25,7 +26,7 @@ public class AddCourseDTO {
     @NotNull
     private Teacher teacher;
 
-    private List<Student> students;
+    private String students;
 
     public @NotNull LocalDateTime getBeginDate() {
         return beginDate;
@@ -35,20 +36,11 @@ public class AddCourseDTO {
         this.beginDate = beginDate;
     }
 
-    public Optional<Duration> getDurationOptional() {
-        try {
-            String[] hoursAndMinutes = duration.trim().split(":");
-            return Optional.of(Duration.ofHours(Integer.parseInt(hoursAndMinutes[0])).plusMinutes(Integer.parseInt(hoursAndMinutes[1])));
-        } catch (NumberFormatException e) {
-            return Optional.empty();
-        }
-    }
-
-    public String getDuration() {
+    public Duration getDuration() {
         return duration;
     }
 
-    public void setDuration(@NotNull String duration) {
+    public void setDuration(@NotNull Duration duration) {
         this.duration = duration;
     }
 
@@ -68,11 +60,11 @@ public class AddCourseDTO {
         this.teacher = teacher;
     }
 
-    public List<Student> getStudents() {
-        return students == null ? new ArrayList<>() : students;
+    public String getStudents() {
+        return students;
     }
 
-    public void setStudents(List<Student> students) {
+    public void setStudents(String students) {
         this.students = students;
     }
 }

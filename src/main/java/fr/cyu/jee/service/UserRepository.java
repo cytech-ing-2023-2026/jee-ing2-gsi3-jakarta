@@ -1,5 +1,6 @@
 package fr.cyu.jee.service;
 
+import fr.cyu.jee.model.Teacher;
 import fr.cyu.jee.model.User;
 import fr.cyu.jee.model.UserType;
 import jakarta.persistence.EntityManager;
@@ -13,11 +14,11 @@ public class UserRepository extends JpaRepository<Integer, User> {
         super(em, "users", User.class);
     }
 
-    public Optional<User> findById(int id) {
+    public Optional<Teacher> findTeacherById(int id) {
         try {
             return Optional.of(
                     getEntityManager()
-                            .createQuery("SELECT u FROM User u WHERE u.id = :id", User.class)
+                            .createQuery("SELECT t FROM Teacher t WHERE t.id = :id", Teacher.class)
                             .setParameter("id", id)
                             .getSingleResult()
             );
@@ -58,9 +59,9 @@ public class UserRepository extends JpaRepository<Integer, User> {
     }
 
 
-    public List findAllByTypeOrdered(UserType type) {
+    public List<User> findAllByTypeOrdered(UserType type) {
         return getEntityManager()
-                .createNativeQuery("SELECT * FROM users u WHERE u.dtype = :?1 ORDER BY u.id ASC", User.class)
+                .createNativeQuery("SELECT * FROM users u WHERE u.dtype = ?1 ORDER BY u.id ASC", User.class)
                 .setParameter(1, type.getDtype())
                 .getResultList();
     };

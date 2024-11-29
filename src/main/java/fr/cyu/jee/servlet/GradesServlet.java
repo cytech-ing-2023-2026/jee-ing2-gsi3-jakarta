@@ -34,7 +34,6 @@ public class GradesServlet extends CrudServlet<AddGradeDTO, EmptyDTO, UpdateGrad
         Student student = studentOpt.get();
 
         return switch (user) {
-
             case Admin ignored -> {
                 if(dto.getSubjectOptional().isPresent()) {
                     student.addGrade(dto.getSubject(), dto.getGrade());

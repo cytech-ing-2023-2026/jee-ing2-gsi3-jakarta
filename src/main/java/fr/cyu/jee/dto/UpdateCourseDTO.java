@@ -1,16 +1,12 @@
 package fr.cyu.jee.dto;
 
 import fr.cyu.jee.model.Course;
-import fr.cyu.jee.model.Student;
 import fr.cyu.jee.model.Subject;
 import fr.cyu.jee.model.Teacher;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 public class UpdateCourseDTO {
 
@@ -21,7 +17,7 @@ public class UpdateCourseDTO {
     private LocalDateTime beginDate;
 
     @NotNull
-    private String duration;
+    private Duration duration;
 
     @NotNull
     private Subject subject;
@@ -29,7 +25,7 @@ public class UpdateCourseDTO {
     @NotNull
     private Teacher teacher;
 
-    private List<Student> students;
+    private String students;
 
     public @NotNull Course getCourse() {
         return course;
@@ -47,20 +43,11 @@ public class UpdateCourseDTO {
         this.beginDate = beginDate;
     }
 
-    public Optional<Duration> getDurationOptional() {
-        try {
-            String[] hoursAndMinutes = duration.trim().split(":");
-            return Optional.of(Duration.ofHours(Integer.parseInt(hoursAndMinutes[0])).plusMinutes(Integer.parseInt(hoursAndMinutes[1])));
-        } catch (NumberFormatException e) {
-            return Optional.empty();
-        }
-    }
-
-    public String getDuration() {
+    public @NotNull Duration getDuration() {
         return duration;
     }
 
-    public void setDuration(@NotNull String duration) {
+    public void setDuration(@NotNull Duration duration) {
         this.duration = duration;
     }
 
@@ -80,11 +67,11 @@ public class UpdateCourseDTO {
         this.teacher = teacher;
     }
 
-    public List<Student> getStudents() {
-        return students == null ? new ArrayList<>() : students;
+    public String getStudents() {
+        return students;
     }
 
-    public void setStudents(List<Student> students) {
+    public void setStudents(String students) {
         this.students = students;
     }
 }
