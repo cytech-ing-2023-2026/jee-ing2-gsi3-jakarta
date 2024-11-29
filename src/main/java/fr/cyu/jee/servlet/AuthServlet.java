@@ -6,7 +6,6 @@ import fr.cyu.jee.model.User;
 import fr.cyu.jee.service.AuthService;
 import fr.cyu.jee.service.ServiceKey;
 import fr.cyu.jee.service.ServiceManager;
-import fr.cyu.jee.service.UserRepository;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpSession;
 
@@ -37,5 +36,4 @@ public class AuthServlet extends CrudServlet<LoginDTO, EmptyDTO, EmptyDTO, Empty
     public CrudResponse onGet(EmptyDTO emptyDTO, HttpSession session) {
         return new ModelAndView("login");
     }
-
 }

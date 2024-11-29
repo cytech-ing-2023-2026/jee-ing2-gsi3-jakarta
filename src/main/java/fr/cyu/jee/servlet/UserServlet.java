@@ -4,6 +4,7 @@ import fr.cyu.jee.dto.DeleteUserDTO;
 import fr.cyu.jee.dto.RegisterDTO;
 import fr.cyu.jee.dto.UpdateUserDTO;
 import fr.cyu.jee.dto.UserMenuDTO;
+import fr.cyu.jee.middleware.Middleware;
 import fr.cyu.jee.model.*;
 import fr.cyu.jee.service.*;
 import jakarta.servlet.annotation.WebServlet;
@@ -19,7 +20,12 @@ import java.util.Set;
 public class UserServlet extends CrudServlet<RegisterDTO, UserMenuDTO, UpdateUserDTO, DeleteUserDTO> {
 
     public UserServlet() {
-        super(RegisterDTO.class, UserMenuDTO.class, UpdateUserDTO.class, DeleteUserDTO.class);
+        super(RegisterDTO.class, UserMenuDTO.class, UpdateUserDTO.class, DeleteUserDTO.class, Map.ofEntries(
+                Map.entry("get", List.of(Middleware.ADMIN)),
+                Map.entry("post", List.of(Middleware.ADMIN)),
+                Map.entry("put", List.of(Middleware.ADMIN)),
+                Map.entry("delete", List.of(Middleware.ADMIN))
+        ));
     }
 
     private SubjectRepository subjectRepository = ServiceManager.getInstance().getService(ServiceKey.SUBJECT_REPOSITORY);

@@ -4,11 +4,13 @@ import fr.cyu.jee.dto.AddGradeDTO;
 import fr.cyu.jee.dto.DeleteGradeDTO;
 import fr.cyu.jee.dto.EmptyDTO;
 import fr.cyu.jee.dto.UpdateGradeDTO;
+import fr.cyu.jee.middleware.Middleware;
 import fr.cyu.jee.model.*;
 import fr.cyu.jee.service.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpSession;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -16,7 +18,12 @@ import java.util.Optional;
 public class GradesServlet extends CrudServlet<AddGradeDTO, EmptyDTO, UpdateGradeDTO, DeleteGradeDTO> {
 
     public GradesServlet() {
-        super(AddGradeDTO.class, EmptyDTO.class, UpdateGradeDTO.class, DeleteGradeDTO.class);
+        super(AddGradeDTO.class, EmptyDTO.class, UpdateGradeDTO.class, DeleteGradeDTO.class, Map.ofEntries(
+                Map.entry("get", List.of(Middleware.LOGIN)),
+                Map.entry("post", List.of(Middleware.LOGIN)),
+                Map.entry("put", List.of(Middleware.LOGIN)),
+                Map.entry("delete", List.of(Middleware.LOGIN))
+        ));
     }
 
     private UserRepository userRepository = ServiceManager.getInstance().getService(ServiceKey.USER_REPOSITORY);
