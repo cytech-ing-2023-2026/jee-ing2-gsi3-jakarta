@@ -1,5 +1,7 @@
 package fr.cyu.jee;
 
+import fr.cyu.jee.dto.DTOUtil;
+import fr.cyu.jee.dto.RegisterDTO;
 import fr.cyu.jee.model.Admin;
 import fr.cyu.jee.model.Student;
 import fr.cyu.jee.model.Subject;
@@ -16,6 +18,7 @@ import fr.cyu.jee.service.GradeRepository;
 
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Map;
 
 public class ContextListener implements ServletContextListener {
 
@@ -53,6 +56,16 @@ public class ContextListener implements ServletContextListener {
         userRepository.save(new Student("notch_student@minecraft.net", "markus", "Markus", "Persson-Student", LocalDate.of(1979, 6, 1), new HashSet<>(), new HashSet<>()));
 
         sce.getServletContext().log("Server started");
+
+        sce.getServletContext().log(DTOUtil.convertToBean(Map.ofEntries(
+                Map.entry("firstName", "Raf"),
+                Map.entry("lastName", "From"),
+                Map.entry("dob", "From"),
+                Map.entry("email", "From"),
+                Map.entry("password", "From"),
+                Map.entry("userType", "TEACHER"),
+                Map.entry("subject", 1)
+        ), RegisterDTO.class).toString());
     }
 
     @Override

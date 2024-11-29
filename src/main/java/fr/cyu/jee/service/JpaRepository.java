@@ -2,6 +2,7 @@ package fr.cyu.jee.service;
 
 import jakarta.persistence.EntityManager;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,6 +45,13 @@ public class JpaRepository<ID, T> {
         T result = em.merge(entity);
         em.getTransaction().commit();
         return result;
+    }
+
+    public Collection<? extends T> saveAll(Collection<? extends T> entities) {
+        em.getTransaction().begin();
+        entities.forEach(em::merge);
+        em.getTransaction().commit();
+        return entities;
     }
 
     public void delete(T entity) {

@@ -1,5 +1,6 @@
 package fr.cyu.jee.dto;
 
+import fr.cyu.jee.model.UserType;
 import fr.cyu.jee.service.ServiceKey;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
@@ -9,6 +10,7 @@ import jakarta.validation.Validator;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.time.LocalDate;
 import java.util.*;
 
 public class DTOUtil {
@@ -22,6 +24,9 @@ public class DTOUtil {
             MAPPINGS = List.of(
                     new DTOMapping<>(String.class, Integer.class, DTOConversion.STRING_TO_INT),
                     new DTOMapping<>(String.class, Double.class, DTOConversion.STRING_TO_DOUBLE),
+                    new DTOMapping<>(String.class, UserMenuDTO.MenuType.class, DTOConversion.fromThrowing(UserMenuDTO.MenuType::valueOf)),
+                    new DTOMapping<>(String.class, UserType.class, DTOConversion.fromThrowing(UserType::valueOf)),
+                    new DTOMapping<>(String.class, LocalDate.class, DTOConversion.fromThrowing(LocalDate::parse)),
                     DTOMapping.jpaService(Integer.class, ServiceKey.COURSE_REPOSITORY).contramap(String.class, DTOConversion.STRING_TO_INT),
                     DTOMapping.jpaService(Integer.class, ServiceKey.GRADE_REPOSITORY).contramap(String.class, DTOConversion.STRING_TO_INT),
                     DTOMapping.jpaService(Integer.class, ServiceKey.SUBJECT_REPOSITORY).contramap(String.class, DTOConversion.STRING_TO_INT),
