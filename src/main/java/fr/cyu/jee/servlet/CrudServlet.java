@@ -2,6 +2,7 @@ package fr.cyu.jee.servlet;
 
 import fr.cyu.jee.dto.DTOResult;
 import fr.cyu.jee.dto.DTOUtil;
+import fr.cyu.jee.dto.DeleteUserDTO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,18 +11,23 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.ConstraintViolation;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiFunction;
 
-public class CrudServlet<PostDTO, GetDTO> extends HttpServlet {
+public class CrudServlet<PostDTO, GetDTO, PutDTO, DeleteDTO> extends HttpServlet {
 
     private Class<PostDTO> postDTOClass;
     private Class<GetDTO> getDTOClass;
+    private Class<PutDTO> putDTOClass;
+    private Class<DeleteDTO> deleteDTOClass;
 
-    public CrudServlet(Class<PostDTO> postDTOClass, Class<GetDTO> getDTOClass) {
+    public CrudServlet(Class<PostDTO> postDTOClass, Class<GetDTO> getDTOClass, Class<PutDTO> putDTOClass, Class<DeleteDTO> deleteDTOClass) {
         this.postDTOClass = postDTOClass;
         this.getDTOClass = getDTOClass;
+        this.putDTOClass = putDTOClass;
+        this.deleteDTOClass = deleteDTOClass;
     }
 
     public CrudResponse onPost(PostDTO dto, HttpSession session) {
@@ -29,6 +35,14 @@ public class CrudServlet<PostDTO, GetDTO> extends HttpServlet {
     }
 
     public CrudResponse onGet(GetDTO dto, HttpSession session) {
+        return CrudResponse.NOT_FOUND;
+    }
+
+    public CrudResponse onPut(PutDTO dto, HttpSession session) {
+        return CrudResponse.NOT_FOUND;
+    }
+
+    public CrudResponse onDelete(DeleteDTO dto, HttpSession session) {
         return CrudResponse.NOT_FOUND;
     }
 
@@ -43,7 +57,10 @@ public class CrudServlet<PostDTO, GetDTO> extends HttpServlet {
 
         req.getParameterNames().asIterator().forEachRemaining(p -> req.setAttribute(p, req.getParameter(p)));
 
-        CrudResponse response = switch (DTOUtil.decodeValid(req, clazz)) {
+        Map<String, Object> map = new HashMap<>();
+        req.getAttributeNames().asIterator().forEachRemaining(name -> map.put(name, req.getAttribute(name)));
+
+        CrudResponse response = switch (DTOUtil.decodeValid(map, clazz)) {
              case DTOResult.Success(T dto) -> logic.apply(dto, req.getSession());
              case DTOResult.DecodingFailure() -> CrudResponse.BAD_REQUEST_DECODING_FAILURE;
              case DTOResult.ValidationFailure(Set<ConstraintViolation<T>> violations) -> {
@@ -79,7 +96,13 @@ public class CrudServlet<PostDTO, GetDTO> extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        processRequest(req, resp, postDTOClass, this::onPost);
+        String method = req.getParameter("method");
+        if(method == null) processRequest(req, resp, postDTOClass, this::onPost);
+        else switch (method) {
+            case "put"    -> processRequest(req, resp, putDTOClass, this::onPut);
+            case "delete" -> processRequest(req, resp, deleteDTOClass, this::onDelete);
+            default -> processRequest(req, resp, postDTOClass, this::onPost);
+        }
     }
 
     @Override
