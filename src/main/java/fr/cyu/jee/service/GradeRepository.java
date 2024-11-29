@@ -8,12 +8,10 @@ import jakarta.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
-public class GradeRepository {
+public class GradeRepository extends JpaRepository<Integer, Grade> {
 
-    private final EntityManager entityManager;
-
-    public GradeRepository(EntityManager entityManager) {
-        this.entityManager = entityManager;
+    public GradeRepository(EntityManager em) {
+        super(em, "grades", Grade.class);
     }
 
     public List<Grade> getAllBySubjectOrdered(int subjectId) {
@@ -24,7 +22,7 @@ public class GradeRepository {
                 WHERE sub.id = :subjectId
                 ORDER BY s.lastName ASC, s.firstName ASC, sub.name ASC
                 """;
-        TypedQuery<Grade> query = entityManager.createQuery(jpql, Grade.class);
+        TypedQuery<Grade> query = getEntityManager().createQuery(jpql, Grade.class);
         query.setParameter("subjectId", subjectId);
         return query.getResultList();
     }
@@ -36,7 +34,7 @@ public class GradeRepository {
                 JOIN g.subject sub
                 ORDER BY s.lastName ASC, s.firstName ASC, sub.name ASC
                 """;
-        TypedQuery<Grade> query = entityManager.createQuery(jpql, Grade.class);
+        TypedQuery<Grade> query = getEntityManager().createQuery(jpql, Grade.class);
         return query.getResultList();
     }
 
@@ -48,7 +46,7 @@ public class GradeRepository {
                 WHERE s.id = :studentId
                 ORDER BY s.lastName ASC, s.firstName ASC, sub.name ASC
                 """;
-        TypedQuery<Grade> query = entityManager.createQuery(jpql, Grade.class);
+        TypedQuery<Grade> query = getEntityManager().createQuery(jpql, Grade.class);
         query.setParameter("studentId", studentId);
         return query.getResultList();
     }
@@ -61,7 +59,7 @@ public class GradeRepository {
                 WHERE sub.id = :subjectId AND s.id = :studentId
                 ORDER BY s.lastName ASC, s.firstName ASC, sub.name ASC
                 """;
-        TypedQuery<Grade> query = entityManager.createQuery(jpql, Grade.class);
+        TypedQuery<Grade> query = getEntityManager().createQuery(jpql, Grade.class);
         query.setParameter("subjectId", subjectId);
         query.setParameter("studentId", studentId);
         return query.getResultList();
@@ -88,22 +86,8 @@ public class GradeRepository {
                 WHERE g.student.id = :studentId
                 GROUP BY sub.name
                 """;
-        Query query = entityManager.createQuery(sql);
+        Query query = getEntityManager().createQuery(sql);
         query.setParameter("studentId", studentId);
         return query.getResultList();
-    }
-
-    // Ajouter un grade (par exemple)
-    public void addGrade(Grade grade) {
-        try {
-            entityManager.getTransaction().begin();
-            entityManager.persist(grade);
-            entityManager.getTransaction().commit();
-        } catch (Exception e) {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
-            throw e;
-        }
     }
 }

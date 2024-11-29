@@ -16,7 +16,7 @@ public class Subject {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<Grade> grades = new HashSet<>();
 
     public Subject(String name) {

@@ -10,9 +10,8 @@ public class DeleteGradeDTO {
     @NotNull
     private Grade grade;
 
-    // Retourne un Optional<Grade> pour le grade
-    public Optional<Grade> getGrade() {
-        return Optional.ofNullable(grade);
+    public Grade getGrade() {
+        return grade;
     }
 
     public void setGrade(Grade grade) {

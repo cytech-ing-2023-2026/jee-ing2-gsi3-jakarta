@@ -17,7 +17,7 @@ public class AddGradeDTO {
 
     @NotNull
     @PositiveOrZero
-    private double grade;
+    private Double grade;
 
     private Subject subject;
 
@@ -30,11 +30,11 @@ public class AddGradeDTO {
     }
 
     @PositiveOrZero
-    public double getGrade() {
+    public Double getGrade() {
         return grade;
     }
 
-    public void setGrade(@PositiveOrZero double grade) {
+    public void setGrade(@PositiveOrZero Double grade) {
         this.grade = grade;
     }
 

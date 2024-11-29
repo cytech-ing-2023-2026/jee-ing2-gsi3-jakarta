@@ -14,23 +14,23 @@ public class UpdateGradeDTO {
 
     @PositiveOrZero
     @NotNull
-    private double value;
+    private Double value;
 
     private Subject subject;
 
-    public Optional<Grade> getGrade() {
-        return Optional.ofNullable(grade);
+    public Grade getGrade() {
+        return grade;
     }
 
     public void setGrade(Grade grade) {
         this.grade = grade;
     }
 
-    public Optional<Double> getValue() {
-        return Optional.of(value);
+    public Double getValue() {
+        return value;
     }
 
-    public void setValue(double value) {
+    public void setValue(Double value) {
         this.value = value;
     }
 

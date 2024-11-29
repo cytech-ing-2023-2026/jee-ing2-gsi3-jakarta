@@ -11,7 +11,7 @@ import java.util.Set;
 @Entity
 public class Student extends User {
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "student", cascade = {CascadeType.REMOVE, CascadeType.MERGE}, orphanRemoval = true)
     private Set<Grade> grades;
 
     @ManyToMany(mappedBy = "students")

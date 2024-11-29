@@ -24,6 +24,7 @@ public class DTOUtil {
                     new DTOMapping<>(String.class, Double.class, DTOConversion.STRING_TO_DOUBLE),
                     DTOMapping.jpaService(Integer.class, ServiceKey.COURSE_REPOSITORY).contramap(String.class, DTOConversion.STRING_TO_INT),
                     DTOMapping.jpaService(Integer.class, ServiceKey.GRADE_REPOSITORY).contramap(String.class, DTOConversion.STRING_TO_INT),
+                    DTOMapping.jpaService(Integer.class, ServiceKey.SUBJECT_REPOSITORY).contramap(String.class, DTOConversion.STRING_TO_INT),
                     DTOMapping.jpaService(Integer.class, ServiceKey.USER_REPOSITORY).contramap(String.class, DTOConversion.STRING_TO_INT)
             );
         }

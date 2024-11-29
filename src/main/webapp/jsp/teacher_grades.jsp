@@ -47,7 +47,7 @@
     <div style="display: flex;">
         <!-- Formulaire à gauche -->
         <div style="flex: 1; padding: 10px; border-right: 1px solid gray;">
-            <form name="addGradesForm" method="post" action="${pageContext.request.contextPath}/grades/add">
+            <form name="addGradesForm" method="post" action="${pageContext.request.contextPath}/grades">
                 <div class="form-group">
                     <label for="email">Student Email:</label>
                     <input class="inputarea" type="email" id="email" name="email" required />
@@ -96,11 +96,14 @@
                         String updateForm = "update_form_" + grade.getId();
                 %>
                 <tr>
-                    <form id="<%= deleteForm %>" action="${pageContext.request.contextPath}/grades/delete" method="post"></form>
-                    <form id="<%= updateForm %>" action="${pageContext.request.contextPath}/grades/update" method="post"></form>
+                    <form id="<%= updateForm %>" action="${pageContext.request.contextPath}/grades" method="post"></form>
+                    <form id="<%= deleteForm %>" action="${pageContext.request.contextPath}/grades" method="post"></form>
 
                     <input type="hidden" name="grade" value="<%= grade.getId() %>" form="<%= updateForm %>">
                     <input type="hidden" name="grade" value="<%= grade.getId() %>" form="<%= deleteForm %>">
+
+                    <input type="hidden" name="method" value="put" form="<%= updateForm %>">
+                    <input type="hidden" name="method" value="delete" form="<%= deleteForm %>">
 
                     <td><%= grade.getStudent().getLastName().toUpperCase() %></td>
                     <td><%= grade.getStudent().getFirstName() %></td>

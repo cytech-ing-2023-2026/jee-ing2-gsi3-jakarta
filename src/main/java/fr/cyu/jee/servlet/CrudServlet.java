@@ -2,7 +2,6 @@ package fr.cyu.jee.servlet;
 
 import fr.cyu.jee.dto.DTOResult;
 import fr.cyu.jee.dto.DTOUtil;
-import fr.cyu.jee.dto.DeleteUserDTO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
