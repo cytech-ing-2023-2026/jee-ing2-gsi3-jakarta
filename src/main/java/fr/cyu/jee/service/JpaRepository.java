@@ -46,4 +46,19 @@ public class JpaRepository<ID, T> {
         em.getTransaction().commit();
         return result;
     }
+
+    public void delete(T entity) {
+        em.getTransaction().begin();
+        em.remove(entity);
+        em.getTransaction().commit();
+    }
+
+    public void delete(int id) {
+        em.getTransaction().begin();
+        em.createNativeQuery("DELETE FROM ?1 WHERE id = ?2")
+                .setParameter(1, tableName)
+                .setParameter(2, id)
+                .executeUpdate();
+        em.getTransaction().commit();
+    }
 }
