@@ -4,7 +4,7 @@
 <%@ page import="fr.cyu.jee.model.User" %>
 <%@ page import="fr.cyu.jee.model.UserType" %>
 <%@ page import="fr.cyu.jee.model.Subject" %>
-<%@ page import="fr.cyu.jee.CustomDateTimeFormatter" %>
+<%@ page import="fr.cyu.jee.util.CustomDateTimeFormatter" %>
 <!DOCTYPE html>
 <html>
 <head>

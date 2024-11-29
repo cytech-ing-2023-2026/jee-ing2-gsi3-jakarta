@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="fr.cyu.jee.model.Grade" %>
 <%@ page import="java.util.List" %>
-<%@ page import="fr.cyu.jee.CustomDateTimeFormatter" %>
+<%@ page import="fr.cyu.jee.util.CustomDateTimeFormatter" %>
 <!DOCTYPE html>
 <html>
 <head>

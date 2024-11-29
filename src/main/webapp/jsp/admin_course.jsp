@@ -6,7 +6,7 @@
 <%@ page import="fr.cyu.jee.model.Subject" %>
 <%@ page import="fr.cyu.jee.model.Teacher" %>
 <%@ page import="fr.cyu.jee.model.Student" %>
-<%@ page import="fr.cyu.jee.CustomDateTimeFormatter" %>
+<%@ page import="fr.cyu.jee.util.CustomDateTimeFormatter" %>
 
 <!DOCTYPE html>
 <html>
