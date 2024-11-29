@@ -6,6 +6,6 @@ import jakarta.persistence.EntityManager;
 public class SubjectRepository extends JpaRepository<Integer, Subject> {
 
     public SubjectRepository(EntityManager em) {
-        super(em, "courses", Subject.class);
+        super(em, "subjects", Subject.class);
     }
 }

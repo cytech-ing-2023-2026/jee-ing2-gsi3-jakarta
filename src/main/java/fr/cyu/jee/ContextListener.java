@@ -31,6 +31,8 @@ public class ContextListener implements ServletContextListener {
         //TODO Register other services
 
         serviceManager.registerService(ServiceKey.COURSE_REPOSITORY, new CourseRepository(em));
+        serviceManager.registerService(ServiceKey.GRADE_REPOSITORY, new GradeRepository(em));
+        serviceManager.registerService(ServiceKey.SUBJECT_REPOSITORY, new SubjectRepository(em));
         UserRepository repository = serviceManager.registerService(ServiceKey.USER_REPOSITORY, new UserRepository(em));
 
         serviceManager.registerService(ServiceKey.AUTH_SERVICE, new AuthService(repository));
@@ -38,11 +40,6 @@ public class ContextListener implements ServletContextListener {
         sce.getServletContext().log("Populating database...");
 
         //TODO Add objects to DB
-
-        serviceManager.registerService(ServiceKey.GRADE_REPOSITORY, new GradeRepository(entityManager));
-        UserRepository repository2 = serviceManager.registerService(ServiceKey.USER_REPOSITORY, new UserRepository(em));
-
-
         repository.save(new Admin("notch@minecraft.net", "markus", "Markus", "Persson", LocalDate.of(1979, 6, 1)));
 
         sce.getServletContext().log("Server started");

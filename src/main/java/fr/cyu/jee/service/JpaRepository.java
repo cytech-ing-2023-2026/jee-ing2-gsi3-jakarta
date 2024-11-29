@@ -31,8 +31,7 @@ public class JpaRepository<ID, T> {
 
     @SuppressWarnings("unchecked")
     public List<T> findAll() {
-        return em.createNativeQuery("SELECT * FROM ?1", entityClass)
-                .setParameter(1, tableName)
+        return em.createNativeQuery("SELECT * FROM " + tableName, entityClass)
                 .getResultList();
     }
 

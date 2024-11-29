@@ -18,7 +18,7 @@ public class ServiceKey<T> {
     public static ServiceKey<EntityManager> ENTITY_MANAGER = new ServiceKey<>("entityManager");
     public static ServiceKey<CourseRepository> COURSE_REPOSITORY = new ServiceKey<>("courseRepository");
     public static ServiceKey<UserRepository> USER_REPOSITORY = new ServiceKey<>("userRepository");
-    public static ServiceKey<UserRepository> GRADE_REPOSITORY = new ServiceKey<>("gradeRepository");
-    public static ServiceKey<AuthService> SUBJECT_REPOSITORY = new ServiceKey<>("SubjectRepository");
+    public static ServiceKey<GradeRepository> GRADE_REPOSITORY = new ServiceKey<>("gradeRepository");
+    public static ServiceKey<SubjectRepository> SUBJECT_REPOSITORY = new ServiceKey<>("subjectRepository");
 
 }
