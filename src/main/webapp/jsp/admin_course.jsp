@@ -23,7 +23,7 @@
 <div style="display: flex;">
     <!-- Formulaire à gauche -->
     <div style="flex: 1; padding: 10px; border-right: 1px solid gray;">
-        <form name="add_courses" method="post" action="${pageContext.request.contextPath}/admin/course/add">
+        <form name="add_courses" method="post" action="${pageContext.request.contextPath}/course">
             <div class="form-group">
                 <label for="begin_date">Begin date:</label>
                 <input class="inputarea" type="datetime-local" id="begin_date" name="beginDate" required />
@@ -87,8 +87,11 @@
                     String updateForm = "update_form_" + course.getId();
             %>
             <tr>
-                <form id="<%= deleteForm %>" action="${pageContext.request.contextPath}/admin/course/delete" method="post"></form>
-                <form id="<%= updateForm %>" action="${pageContext.request.contextPath}/admin/course/update" method="post"></form>
+                <form id="<%= deleteForm %>" action="${pageContext.request.contextPath}/course" method="post"></form>
+                <form id="<%= updateForm %>" action="${pageContext.request.contextPath}/course" method="post"></form>
+
+                <input type="hidden" name="method" value="delete" form="<%= deleteForm %>">
+                <input type="hidden" name="method" value="put" form="<%= updateForm %>">
 
                 <input type="hidden" name="course" value="<%= course.getId() %>" form="<%= deleteForm %>">
                 <input type="hidden" name="course" value="<%= course.getId() %>" form="<%= updateForm %>">

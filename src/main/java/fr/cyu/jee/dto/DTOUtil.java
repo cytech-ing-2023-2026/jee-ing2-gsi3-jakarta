@@ -1,7 +1,9 @@
 package fr.cyu.jee.dto;
 
 import fr.cyu.jee.model.UserType;
+import fr.cyu.jee.model.Teacher;
 import fr.cyu.jee.service.ServiceKey;
+import fr.cyu.jee.service.ServiceManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -10,7 +12,9 @@ import jakarta.validation.Validator;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class DTOUtil {
@@ -27,6 +31,13 @@ public class DTOUtil {
                     new DTOMapping<>(String.class, UserMenuDTO.MenuType.class, DTOConversion.fromThrowing(UserMenuDTO.MenuType::valueOf)),
                     new DTOMapping<>(String.class, UserType.class, DTOConversion.fromThrowing(UserType::valueOf)),
                     new DTOMapping<>(String.class, LocalDate.class, DTOConversion.fromThrowing(LocalDate::parse)),
+                    new DTOMapping<>(String.class, LocalDateTime.class, DTOConversion.fromThrowing(LocalDateTime::parse)),
+                    new DTOMapping<>(String.class, Duration.class, DTOConversion.fromThrowing(str -> {
+                        String[] hoursAndMinutes = str.trim().split(":");
+                        return Duration.ofHours(Integer.parseInt(hoursAndMinutes[0])).plusMinutes(Integer.parseInt(hoursAndMinutes[1]));
+                    })),
+                    new DTOMapping<>(Integer.class, Teacher.class, id -> ServiceManager.getInstance().getService(ServiceKey.USER_REPOSITORY).findTeacherById(id))
+                            .contramap(String.class, DTOConversion.STRING_TO_INT),
                     DTOMapping.jpaService(Integer.class, ServiceKey.COURSE_REPOSITORY).contramap(String.class, DTOConversion.STRING_TO_INT),
                     DTOMapping.jpaService(Integer.class, ServiceKey.GRADE_REPOSITORY).contramap(String.class, DTOConversion.STRING_TO_INT),
                     DTOMapping.jpaService(Integer.class, ServiceKey.SUBJECT_REPOSITORY).contramap(String.class, DTOConversion.STRING_TO_INT),

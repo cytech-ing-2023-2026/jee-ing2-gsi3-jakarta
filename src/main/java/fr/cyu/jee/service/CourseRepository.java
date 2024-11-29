@@ -7,6 +7,8 @@ import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,8 +27,8 @@ public class CourseRepository extends JpaRepository<Integer, Course> {
                     Course.class
             );
             query.setParameter("studentId", studentId);
-            query.setParameter("from", from);
-            query.setParameter("to", to);
+            query.setParameter("from", LocalDateTime.of(from, LocalTime.MIDNIGHT));
+            query.setParameter("to", LocalDateTime.of(to, LocalTime.MAX));
             return new HashSet<>(query.getResultList());
         } catch (NoResultException e) {
             return Set.of();
@@ -42,8 +44,8 @@ public class CourseRepository extends JpaRepository<Integer, Course> {
                     Course.class
             );
             query.setParameter("teacherId", teacherId);
-            query.setParameter("from", from);
-            query.setParameter("to", to);
+            query.setParameter("from", LocalDateTime.of(from, LocalTime.MIDNIGHT));
+            query.setParameter("to", LocalDateTime.of(to, LocalTime.MAX));
             return new HashSet<>(query.getResultList());
         } catch (NoResultException e) {
             return Set.of();
