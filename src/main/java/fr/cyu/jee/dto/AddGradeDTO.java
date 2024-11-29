@@ -38,8 +38,12 @@ public class AddGradeDTO {
         this.grade = grade;
     }
 
-    public Optional<Subject> getSubject() {
+    public Optional<Subject> getSubjectOptional() {
         return Optional.ofNullable(subject);
+    }
+
+    public Subject getSubject() {
+        return subject;
     }
 
     public void setSubject(Subject subject) {
