@@ -1,7 +1,6 @@
 package fr.cyu.jee.dto;
 
 import fr.cyu.jee.service.ServiceKey;
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -24,6 +23,7 @@ public class DTOUtil {
                     new DTOMapping<>(String.class, Integer.class, DTOConversion.STRING_TO_INT),
                     new DTOMapping<>(String.class, Double.class, DTOConversion.STRING_TO_DOUBLE),
                     DTOMapping.jpaService(Integer.class, ServiceKey.COURSE_REPOSITORY).contramap(String.class, DTOConversion.STRING_TO_INT),
+                    DTOMapping.jpaService(Integer.class, ServiceKey.GRADE_REPOSITORY).contramap(String.class, DTOConversion.STRING_TO_INT),
                     DTOMapping.jpaService(Integer.class, ServiceKey.USER_REPOSITORY).contramap(String.class, DTOConversion.STRING_TO_INT)
             );
         }
