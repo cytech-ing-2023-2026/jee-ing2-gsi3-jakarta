@@ -2,6 +2,7 @@
 <%@ page import="fr.cyu.jee.model.Grade" %>
 <%@ page import="java.util.List" %>
 <%@ page import="fr.cyu.jee.util.CustomDateTimeFormatter" %>
+<%@ page import="org.hibernate.dialect.function.ListaggGroupConcatEmulation" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -61,7 +62,10 @@
         </thead>
         <tbody>
         <%
-          for(Grade grade : (List<Grade>) pageContext.getRequest().getAttribute("grades")) {
+          List<Grade> grades = (List<Grade>) pageContext.getRequest().getAttribute("grades");
+          double sum=0;
+          for(Grade grade : grades) {
+            sum+=grade.getValue();
         %>
         <tr>
           <td><%= grade.getSubject().getName() %></td>
@@ -72,6 +76,7 @@
         <% } %>
         </tbody>
       </table>
+      <label>Average: <%=sum/grades.size()%></label>
     </div>
   </div>
 </div>
